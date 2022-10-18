@@ -2,52 +2,56 @@
 @import 'components/type';
 @import '../../node_modules/modern-normalize/modern-normalize';
 
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.overflow {
-    overflow: hidden;
+body {
+  background-color: #1E1E1E;
+  color: rgb(231, 231, 231);
 }
 
-.nav{
-    width: auto;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+.hidden {
+  overflow-x: hidden;
+}
+
+.header {
+  height: 80px;
+  width: 100%;
+  top: 0;
+  border-bottom: #000 1px solid;
+  background-color: #262626;
+
+  &__nav {
+    position: relative;
+    left: 40px;
+    height: 100%;
+  }
+}
+.drawapp-box {
+  position: absolute;
+  width: 554px;
+  height: 784px;
+  left: 50%;
+  top: 50%;
+  margin-left: -277px;
+  margin-top: -392px;
+  border: #000 1px solid;
+}
+
+.liste {
+  list-style: none;
+  
+  &--header {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    opacity: .3;
-    transition: opacity .5s;
-}
-.nav:hover{
-    opacity: 1;
-}
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
-.color{
-    height: 30px;
-    width: 30px;
-    background-color: #000;
-    border-radius: 50%;
-    border: 3px solid rgb(214, 214, 214);
-    transition: transform .2s;
-}
-.color:hover{
-    transform: scale(1.2);
-}
-
-button{
-    border: none;
-    outline: none;
-    padding: .6em 1em;
-    border-radius: 3px;
-    background-color: #03bb56;
-    color: #fff;
-}
-.save{
-    background-color: #0f65d4;
+  &--header__el {
+    margin-right: 25px;
+    cursor: pointer;
+  }
 }

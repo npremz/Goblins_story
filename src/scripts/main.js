@@ -1,76 +1,51 @@
 "use strict"
 
-window.addEventListener('load', (e) => {
-    const canvas = document.querySelector("#canvas");
-    const canvasOffsetX = canvas.offsetLeft;
-    const canvasOffsetY = canvas.offsetTop;
+if ($().drawr) {
+    console.log('oui')
+}
 
-    canvas.width = window.innerWidth - canvasOffsetX;
-    canvas.height = window.innerHeight - canvasOffsetY;
-    
-    if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
+$(".drawapp-box__canvas").drawr({
+    "enable_tranparency" : false,
+    "canvas_width" : 1200,
+    "canvas_height" : 1200
+});
 
-        let prevX = null
-        let prevY = null
+//Enable drawing mode, show controls
+$(".drawapp-box__canvas").drawr("start");
 
-        let width = document.querySelector('#width')
-        width.value = 5
-        width.addEventListener('change', (e) => {
-            ctx.lineWidth = width.value
-        });
+//add custom save button.
+var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
+    "icon":"mdi mdi-folder-open mdi-24px"
+}).on("touchstart mousedown",function(){
+    // alert("demo of a custom button with your own functionality!");
+    $("#file-picker").click();
+});
+var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
+    "icon":"mdi mdi-content-save mdi-24px"
+}).on("touchstart mousedown",function(){
+    var imagedata = $(".drawapp-box__canvas").drawr("export","image/png");
+    var element = document.createElement('a');
+    element.setAttribute('href', imagedata);// 'data:text/plain;charset=utf-8,' + encodeURIComponent("sillytext"));
+    element.setAttribute('download', "test.png");
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+});
+$("#file-picker")[0].onchange = function(){
+    var file = $("#file-picker")[0].files[0];
+    if (!file.type.startsWith('image/')){ return }
+    var reader = new FileReader();
+    reader.onload = function(e) { 
+        $(".drawapp-box__canvas").drawr("load",e.target.result);
+    };
+    reader.readAsDataURL(file);
+};
 
+function destroy(){
+    $(".drawapp-box__canvas").drawr("destroy");
+}
 
-        ctx.lineWidth = 5
-        ctx.lineCap = 'round';
-
-        let draw = false
-        window.addEventListener("mousedown", (e) => draw = true);
-        window.addEventListener("mouseup", (e) => draw = false);
-
-
-
-        let color = document.querySelector(".color");
-        color.addEventListener("change", () => {
-            ctx.strokeStyle = color.value
-        })
-
-        let clearBtn = document.querySelector(".clear")
-        clearBtn.addEventListener("click", () => {
-            // Clearning the entire canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height)
-        });
-
-        let saveBtn = document.querySelector(".save")
-        saveBtn.addEventListener("click", () => {
-            let data = canvas.toDataURL("imag/png")
-            let a = document.createElement("a")
-            a.href = data
-            a.download = "sketch.png"
-            a.click()
-        })
-
-        window.addEventListener("mousemove", (e) => {
-           
-            if(prevX == null || prevY == null || !draw){
-                prevX = e.clientX
-                prevY = e.clientY
-                return
-            } 
-
-            let currentX = e.clientX
-            let currentY = e.clientY
-
-            ctx.beginPath()
-            ctx.moveTo(prevX, prevY)
-            ctx.lineTo(currentX, currentY)
-            ctx.stroke()
-
-            prevX = currentX
-            prevY = currentY
-
-        })
-    }
-})
-
-
+function clear(){
+    $(".drawapp-box__canvas").drawr("clear");
+}
