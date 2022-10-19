@@ -1,8 +1,6 @@
 "use strict"
 
-if ($().drawr) {
-    console.log('oui')
-}
+// PLUGIN CANVAS SET UP + OPTIONS
 
 $(".drawapp-box__canvas").drawr({
     "enable_tranparency" : false,
@@ -49,3 +47,26 @@ function destroy(){
 function clear(){
     $(".drawapp-box__canvas").drawr("clear");
 }
+
+// FONCTION DE SAUVEGARDE DU CANVAS
+
+function save_canvas(c) {
+    var b64Image = c.toDataURL("image/png");
+
+    fetch("scripts/save_image_b64.php", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: b64Image
+    })  .then(response => response.text())
+        .then(success => console.log(success))
+        .catch(error => console.log(error));
+}
+
+const btPost = document.querySelector("#post");
+console.log(btPost);
+console.log($(".active-drawr"));
+
+btPost.addEventListener("click", () => {
+    save_canvas($(".active-drawr")[0]);
+})

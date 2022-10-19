@@ -71,6 +71,16 @@ const html = (done) => {
 }
 
 /**
+ * php
+ */
+ const php = (done) => {
+    gulp.src('./src/scripts/*.php')
+        .pipe(gulp.dest( './dist/scripts'));
+
+    done();
+}
+
+/**
  * Fonts
  */
  const fonts = (done) => {
@@ -138,7 +148,7 @@ const compressImages = (done) => {
     done()
 }
 
-const build = gulp.series(html, styles, javascript, fonts, compressImages);
+const build = gulp.series(html, php, styles, javascript, fonts, compressImages);
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 const compress = gulp.series(compressImages);
 
