@@ -4,8 +4,8 @@
 
 $(".drawapp-box__canvas").drawr({
     "enable_tranparency" : false,
-    "canvas_width" : 1200,
-    "canvas_height" : 1200
+    "canvas_width" : 1080,
+    "canvas_height" : 1528
 });
 
 //Enable drawing mode, show controls
@@ -48,24 +48,55 @@ function clear(){
     $(".drawapp-box__canvas").drawr("clear");
 }
 
+const path = '/B3G1_iLab_Goblins Story/dist/assets/images/bd/'
+const src = 'assets/images/bd/'
+
 // FONCTION DE SAUVEGARDE DU CANVAS
 
 function save_canvas(c) {
     var b64Image = c.toDataURL("image/png");
 
-    fetch("scripts/save_image_b64.php", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: b64Image
-    })  .then(response => response.text())
-        .then(success => console.log(success))
-        .catch(error => console.log(error));
+    $.ajax({
+        url: 'scripts/save_image_b64.php',
+        method: 'POST',
+        contentType: 'application/x-www-form-urlencoded',
+        data: {body : `${b64Image}`, structure : path},
+
+        success: function (data) {
+            console.log(data)
+        }
+    })
 }
+
+function addImgRow() {
+    
+    $.ajax({
+        url: 'scripts/add_img.php',
+        method: "POST",
+        data: {source :  src},
+    
+        success: function (data) {
+                      console.log(data)
+                }
+        });
+        
+
+}
+
+console.log(addImgRow);
 
 const btPost = document.querySelector("#post");
 console.log(btPost);
+
+const btImport = document.querySelector("#import");
+console.log(btImport);
+
+
 console.log($(".active-drawr"));
+
+btImport.addEventListener("click", () => {
+    addImgRow()
+})
 
 btPost.addEventListener("click", () => {
     save_canvas($(".active-drawr")[0]);

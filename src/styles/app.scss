@@ -22,22 +22,24 @@ body {
   top: 0;
   border-bottom: #000 1px solid;
   background-color: #262626;
+  display: flex;
+  align-items: center;
 
   &__nav {
-    position: relative;
-    left: 40px;
-    height: 100%;
+    padding-left: 40px;
   }
 }
+
+.main {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
 .drawapp-box {
-  position: absolute;
-  width: 554px;
-  height: 784px;
-  left: 50%;
-  top: 50%;
-  margin-left: -277px;
-  margin-top: -392px;
   border: #000 1px solid;
+  height: 70vh;
+  width: 70vw;
 }
 
 .liste {
@@ -45,9 +47,6 @@ body {
   
   &--header {
     display: flex;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
   }
 
   &--header__el {
