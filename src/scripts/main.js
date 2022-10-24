@@ -97,7 +97,7 @@ if (canvasBox) {
         $(".drawapp-box__canvas").drawr("clear");
     }
 
-    const path = '/projets/ilab/assets/images/bd/'
+    const path = '/B3G1_iLab_Goblins Story/dist/assets/images/bd/'
     const src = 'assets/images/bd/'
 
     var now = new Date();

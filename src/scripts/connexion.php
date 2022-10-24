@@ -2,7 +2,7 @@
 
 //connexion
   try {
-      $bdd = new PDO('mysql:host=qegavrs504.mysql.db;dbname=qegavrs504;charset=utf8','qegavrs504', 'XMoir911X');
+      $bdd = new PDO('mysql:host=localhost;dbname=goblins;charset=utf8','root', '');
   } catch(Exception $e) {
       die('Erreur : '.$e->getMessage());
   };
