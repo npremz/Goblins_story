@@ -10,7 +10,7 @@
         mkdir($_SERVER['DOCUMENT_ROOT'] .$structure, 0777, true);
     }
     
-    $file = $_SERVER['DOCUMENT_ROOT'].$structure.time().'.png';
+    $file = $_SERVER['DOCUMENT_ROOT'].$structure.$_POST['name'].'.png';
     
     $success = file_put_contents($file, $data);
     print $success ? $file.' saved.' : 'Unable to save the file.';

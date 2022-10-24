@@ -1,103 +1,172 @@
 "use strict"
 
-// PLUGIN CANVAS SET UP + OPTIONS
+//Burger menu
 
-$(".drawapp-box__canvas").drawr({
-    "enable_tranparency" : false,
-    "canvas_width" : 1080,
-    "canvas_height" : 1528
-});
+const burger = document.querySelector('.nav__button');
 
-//Enable drawing mode, show controls
-$(".drawapp-box__canvas").drawr("start");
+if (burger) {
 
-//add custom save button.
-var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
-    "icon":"mdi mdi-folder-open mdi-24px"
-}).on("touchstart mousedown",function(){
-    // alert("demo of a custom button with your own functionality!");
-    $("#file-picker").click();
-});
-var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
-    "icon":"mdi mdi-content-save mdi-24px"
-}).on("touchstart mousedown",function(){
-    var imagedata = $(".drawapp-box__canvas").drawr("export","image/png");
-    var element = document.createElement('a');
-    element.setAttribute('href', imagedata);// 'data:text/plain;charset=utf-8,' + encodeURIComponent("sillytext"));
-    element.setAttribute('download', "test.png");
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-});
-$("#file-picker")[0].onchange = function(){
-    var file = $("#file-picker")[0].files[0];
-    if (!file.type.startsWith('image/')){ return }
-    var reader = new FileReader();
-    reader.onload = function(e) { 
-        $(".drawapp-box__canvas").drawr("load",e.target.result);
-    };
-    reader.readAsDataURL(file);
-};
+    document.addEventListener('DOMContentLoaded', nav)
+    function nav(){
+        const nav = document.querySelector('.nav');
+        burger.addEventListener('click', ()=>{
+            nav.classList.toggle('show')
+        })
+    }
 
-function destroy(){
-    $(".drawapp-box__canvas").drawr("destroy");
 }
 
-function clear(){
-    $(".drawapp-box__canvas").drawr("clear");
-}
+    //Back to top
 
-const path = '/B3G1_iLab_Goblins Story/dist/assets/images/bd/'
-const src = 'assets/images/bd/'
+    const backtotopbutton = document.querySelector(".fleche-container__fleche");
 
-// FONCTION DE SAUVEGARDE DU CANVAS
+    if (backtotopbutton) {
 
-function save_canvas(c) {
-    var b64Image = c.toDataURL("image/png");
+        console.log(backtotopbutton)
 
-    $.ajax({
-        url: 'scripts/save_image_b64.php',
-        method: 'POST',
-        contentType: 'application/x-www-form-urlencoded',
-        data: {body : `${b64Image}`, structure : path},
-
-        success: function (data) {
-            console.log(data)
-        }
-    })
-}
-
-function addImgRow() {
+        const scrollContainer = () => {
+            return document.documentElement || document.querySelector("body");
+        };
     
-    $.ajax({
-        url: 'scripts/add_img.php',
-        method: "POST",
-        data: {source :  src},
-    
-        success: function (data) {
-                      console.log(data)
-                }
+        function goToTop() {
+            document.body.scrollIntoView({
+            behavior: "smooth",
         });
-        
+        };
 
-}
+    backtotopbutton.addEventListener("click", goToTop);
 
-console.log(addImgRow);
+    }
 
 const btPost = document.querySelector("#post");
-console.log(btPost);
+const btClear = document.querySelector("#clear");
+const btReset = document.querySelector("#reset");
+const formPubli = document.querySelector(".form-box");
+const btPubli = document.querySelector(".form__button");
+const btclose = document.querySelector(".form__close");
+const canvasBox = document.querySelector(".drawapp-box__canvas");
 
-const btImport = document.querySelector("#import");
-console.log(btImport);
+
+if (canvasBox) {
+
+    // PLUGIN CANVAS SET UP + OPTIONS
+
+    $(".drawapp-box__canvas").drawr({
+        "enable_tranparency" : false,
+        "canvas_width" : 1080,
+        "canvas_height" : 1528
+    });
+
+    //Enable drawing mode, show controls
+    $(".drawapp-box__canvas").drawr("start");
+
+    //add custom save button.
+    var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
+        "icon":"mdi mdi-folder-open mdi-24px"
+    }).on("touchstart mousedown",function(){
+        // alert("demo of a custom button with your own functionality!");
+        $("#file-picker").click();
+    });
+    var buttoncollection = $(".drawapp-box__canvas").drawr("button", {
+        "icon":"mdi mdi-content-save mdi-24px"
+    }).on("touchstart mousedown",function(){
+        var imagedata = $(".drawapp-box__canvas").drawr("export","image/png");
+        var element = document.createElement('a');
+        element.setAttribute('href', imagedata);// 'data:text/plain;charset=utf-8,' + encodeURIComponent("sillytext"));
+        element.setAttribute('download', "test.png");
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    });
+    $("#file-picker")[0].onchange = function(){
+        var file = $("#file-picker")[0].files[0];
+        if (!file.type.startsWith('image/')){ return }
+        var reader = new FileReader();
+        reader.onload = function(e) { 
+            $(".drawapp-box__canvas").drawr("load",e.target.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    function destroy(){
+        $(".drawapp-box__canvas").drawr("destroy");
+    }
+
+    function clear(){
+        $(".drawapp-box__canvas").drawr("clear");
+    }
+
+    const path = '/projets/ilab/assets/images/bd/'
+    const src = 'assets/images/bd/'
+
+    var now = new Date();
+    
+    var time =  `${now.getFullYear()}`+`${now.getMonth()}`+`${now.getDate()}`+`${now.getHours()}`+`${now.getMinutes()}`+`${now.getSeconds()}`;
 
 
-console.log($(".active-drawr"));
+    // FONCTION DE SAUVEGARDE DU CANVAS
 
-btImport.addEventListener("click", () => {
-    addImgRow()
-})
+    function save_canvas(c) {
+        var b64Image = c.toDataURL("image/png");
 
-btPost.addEventListener("click", () => {
-    save_canvas($(".active-drawr")[0]);
-})
+        $.ajax({
+            url: 'scripts/save_image_b64.php',
+            method: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {body : `${b64Image}`, structure : path, name: time},
+
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function addImgRow() {
+        
+        $.ajax({
+            url: 'scripts/add_img.php',
+            method: "POST",
+            data: {source :  src, username : document.querySelector('.form__input').value, name : time},
+        
+            success: function (data) {
+                        console.log(data)
+                    }
+            });
+            
+
+    }
+
+    console.log(addImgRow);
+
+    btPost.addEventListener("click", () => {
+        formPubli.classList.add('open');
+        canvasBox.classList.add('none');
+    })
+
+    btclose.addEventListener("click", () => {
+        formPubli.classList.remove('open');
+        canvasBox.classList.remove('none');
+    })
+
+    btClear.addEventListener("click", () => {
+        console.log('Bartosz est trop beau !')
+        $(".drawapp-box__canvas").drawr("clear");
+    })
+
+    btReset.addEventListener("click", () => {
+        $(".drawapp-box__canvas").drawr({
+            "enable_tranparency" : false,
+            "canvas_width" : 1080,
+            "canvas_height" : 1528
+        });
+    })
+
+    btPubli.addEventListener("click", (e) => {
+        e.preventDefault();
+        save_canvas($(".active-drawr")[0]);
+        addImgRow()
+    })
+
+}
+

@@ -64,7 +64,7 @@ const javascript = (done) => {
  * HTML
  */
 const html = (done) => {
-    gulp.src('./src/*.html')
+    gulp.src('./src/*.*')
         .pipe(gulp.dest( './dist/'));
 
     done();
@@ -76,16 +76,6 @@ const html = (done) => {
  const phpUtils = (done) => {
     gulp.src('./src/scripts/*.php')
         .pipe(gulp.dest( './dist/scripts'));
-
-    done();
-}
-
-/**
- * php
- */
- const php = (done) => {
-    gulp.src('./src/*.php')
-        .pipe(gulp.dest( './dist/'));
 
     done();
 }
@@ -113,7 +103,7 @@ const watchFiles = (done) => {
         "./src/assets/images/**/*.gif",
         "./src/assets/images/**/*.svg"
     ], compressImages);
-    gulp.watch("./src/*.html", gulp.series(html, browserReload));
+    gulp.watch("./src/*.*", gulp.series(html, browserReload));
 
     done();
 }
@@ -159,7 +149,7 @@ const compressImages = (done) => {
     done()
 }
 
-const build = gulp.series(html, php, phpUtils, styles, javascript, fonts, compressImages);
+const build = gulp.series(html, phpUtils, styles, javascript, fonts, compressImages);
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 const compress = gulp.series(compressImages);
 
